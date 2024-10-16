@@ -1,0 +1,13 @@
+block main-content 
+  //You can overwrite the main-content block by writing block content
+  //in the template file which is extending.   
+  h1.page-title Welcome to our Shop! 
+  a(href="/addItem") addItem
+  ul
+    each item in items 
+      - 
+        let stock = item.stock
+      li 
+        h3 #{item.name} #{stock} Left
+        p #{item.description}
+        p #{item.price}
