@@ -4,14 +4,14 @@ const mongoose = require("mongoose");
 const dbUrl = `mongodb+srv://${process.env.DBUSER}:${process.env.DBPWD}@${process.env.DBHOST}`;
 
 //set up Schema and model
-const ShopSchema = new mongoose.Schema({
+const ItemSchema = new mongoose.Schema({
     name: String,
     description: String,
     price: Number,
     stock: Number
   });
 
-  const Shop = mongoose.model("Shop", ShopSchema);
+  const Item = mongoose.model("items", ItemSchema);
 
 //MONGODB FUNCTIONS
 async function connect() {
@@ -19,7 +19,7 @@ async function connect() {
 }
 
 // initialize the database
-async function initializeShop() {
+async function initializeItems() {
     const itemsList = [
       {
         name: "Phone Stand",
@@ -40,22 +40,22 @@ async function initializeShop() {
         stock: 29
       }
     ]
-    await Shop.insertMany(itemsList);
+    await Item.insertMany(itemsList);
   }
 
-  // get all the items in the shop collection
+  // get all the items in the items collection
   async function getItems() {
     await connect();
-    return await Shop.find({}).sort(); //return array for find all
+    return await Item.find({}).sort(); //return array for find all
   };
 
   // add one hard coded item to db
   async function addItem(obj) {
-    await Shop.create(obj);
+    await Item.create(obj);
   }
 
 module.exports = {
     getItems,
-    initializeShop,
+    initializeItems,
     addItem
 };

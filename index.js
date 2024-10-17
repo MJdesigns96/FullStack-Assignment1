@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const db = require("./modules/database"); //load db.js
+const shops = require("./modules/locations"); //load locations.js
 const { response } = require("express");
 
 //set up Express app
@@ -25,12 +26,18 @@ app.use(express.json()); //need for parsing JSON data from requests
 app.get("/", async (request, response) => {
   // get items
   let itemsList = await db.getItems();
+  let locationsList = await shops.getShops();
   // initialize the shop if there are no items
   if (!itemsList.length) {
-    await db.initializeShop();
+    await db.initializeItems();
     itemsList = await db.getItems().json();
-    }
-  console.log(itemsList);
+  };
+  if (!locationsList.length) {
+    await shops.initializeLocations();
+    locationsList = await shops.getShops().json();
+  }
+  // console.log(itemsList);
+  // console.log(locationsList);
   // render the page afterwards
   response.render("index", { title: "Shop", items: itemsList });
 });
@@ -53,12 +60,7 @@ app.listen(port, () => {
 });
 
 // to do:
-// add a second colleciton to house all transactions
-// add a third for in cart
-// make views that allow users to add an item to cart
-// once user adds to cart add the log to the cart database
-// once the user goes to checkout create a new view that shows the items added to cart
-// create checkout view that has form for users to input information
-// once submitted, redirect to home
-// reduce stock of the item by 1
-// new transaction with user's submitted data
+// add a second collection to house all locations
+// have a button to direct the user to the stores view
+// create a form that allows the addition of an item
+// 
