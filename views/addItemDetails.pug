@@ -1,0 +1,18 @@
+extends layout 
+
+block main-content
+    h1.page-title Add Item 
+        form(action="/addItem" method="POST")
+            div.form-group 
+                label(for="name") Name:
+                input(type="text", id="name", name="name", placeholder="name").form-control
+            div.form-group 
+                label(for="description") Description:
+                input(type="text", id="description", name="description", placeholder="description").form-control
+            div.form-group 
+                label(for="price") Price:
+                input(type="number", id="price", name="price", placeholder="price", min="0", step=".01").form-control
+            div.form-group 
+                label(for="stock") Stock:
+                input(type="number", id="stock", name="stock", placeholder="stock", min="0").form-control
+            button(type="submit").btn.btn-primary.btn-lg Add Item

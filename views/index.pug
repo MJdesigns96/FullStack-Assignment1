@@ -1,14 +1,13 @@
+extends layout
+
 
 block main-content 
-  //You can overwrite the main-content block by writing block content
-  //in the template file which is extending.   
   h1.page-title Welcome to our Shop! 
-  a(href="/addItem") addItem
-  ul
-    each item in items 
-      - 
-        let stock = item.stock
-      li 
-        h3 #{item.name} #{stock} Left
-        p #{item.description}
-        p #{item.price}
+  h3 Please feel free to check out our selection of products or our store locations
+  div.row
+    div.col-2
+      form(action="/items" method="get")
+        button(type="submit").btn.btn-secondary.btn-lrg Items
+    div.col-2
+      form(action="/stores" method="get")
+        button(type="submit").btn.btn-secondary.btn-lrg Stores

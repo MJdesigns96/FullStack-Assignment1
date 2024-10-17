@@ -1,0 +1,21 @@
+extends layout
+
+block main-content 
+    h1 Locations
+    div.row.mb-5
+        div.col-2
+        div.col-8
+            ul.list-group
+            each store in stores
+                -
+                    let hourOpen = store.hourOpen
+                    let close 
+                    store.hourClose > 12 ? close = store.hourClose - 12 : close = store.hourClose
+                li.list-group-item
+                    div.card
+                        div.card-body
+                            h3.card-title.mb-4 #{store.branch}
+                            h6 #{store.address}.
+                            p.card-test Hours: #{hourOpen}am - #{close}pm
+                            p.card-text Phone: #{store.phone}
+        div.col-2

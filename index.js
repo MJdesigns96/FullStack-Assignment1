@@ -24,34 +24,53 @@ app.use(express.json()); //need for parsing JSON data from requests
 //PAGE ROUTES
 // initialize db and save results as JSON to a array
 app.get("/", async (request, response) => {
-  // get items
+  // render the page
+  response.render("index" );
+});
+
+// redirect paths
+app.get("/items", async (request, response) => {
+   // get items
   let itemsList = await db.getItems();
-  let locationsList = await shops.getShops();
   // initialize the shop if there are no items
   if (!itemsList.length) {
     await db.initializeItems();
     itemsList = await db.getItems().json();
   };
+  // render the page afterwards
+  response.render("items", { title: "items", items: itemsList });
+});
+app.get("/stores", async (request, response) => {
+   // get stores
+   let locationsList = await shops.getShops();
+  // initialize the locations if there are none
   if (!locationsList.length) {
     await shops.initializeLocations();
     locationsList = await shops.getShops().json();
   }
-  // console.log(itemsList);
-  // console.log(locationsList);
   // render the page afterwards
-  response.render("index", { title: "Shop", items: itemsList });
+  response.render("stores", { title: "stores", stores: locationsList });
 });
 
-const newItem = {
-  name: "pencil case",
-  description: "holder of pencils and other things.",
-  price: 5.99,
-  stock: 2
-};
+app.get("/addItemDetails", async (request, response) => {
+  //render form to add item
+  response.render("addItemDetails");
+});
 
-app.get("/addItem", async (request, response) => {
+app.post("/addItem", async (request, response) => {
+  // get form data from dom and store it into an object
+  let req = request.body;
+  let newItem = {
+    name: req.name,
+    description: req.description,
+    price: req.price,
+    stock: req.stock
+  }
+
+  //use mongoose's create to add the obj to the db
   await db.addItem(newItem);
-  response.redirect("/");
+  // redirect the user to items list
+  response.redirect("/items");
 });
 
 //set up server listening
@@ -59,8 +78,3 @@ app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
 
-// to do:
-// add a second collection to house all locations
-// have a button to direct the user to the stores view
-// create a form that allows the addition of an item
-// 
