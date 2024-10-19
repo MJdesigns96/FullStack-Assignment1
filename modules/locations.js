@@ -46,7 +46,12 @@ async function getShops() {
     return await Location.find({}).sort();
 };
 
+async function addStore(obj) {
+    await Location.create(obj);
+  }
+
 module.exports = {
     getShops,
-    initializeLocations
+    initializeLocations,
+    addStore
 }

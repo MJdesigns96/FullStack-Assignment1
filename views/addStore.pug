@@ -1,0 +1,23 @@
+extends layout 
+
+block main-content
+    form(action="/stores")
+        button(type="submit").btn.btn-primary.btn-lg Back
+    h1.page-title Add Item 
+        form(action="/addStore" method="POST")
+            div.form-group 
+                label(for="branch") Branch:
+                input(type="text", id="branch", name="branch", placeholder="Branch").form-control
+            div.form-group 
+                label(for="address") Address:
+                input(type="text", id="address", name="address", placeholder="Address").form-control
+            div.form-group 
+                label(for="hourOpen") Opening Hour:
+                input(type="number", id="hourOpen", name="hourOpen", placeholder="Opening Hour", min="0").form-control
+            div.form-group 
+                label(for="hourClose") Closing Hour:
+                input(type="number", id="hourClose", name="hourClose", placeholder="Closing Hour:", min="0").form-control
+            div.form-group 
+                label(for="phone") Phone Number:
+                input(type="text", id="phone", name="phone", placeholder="Phone Number").form-control
+            button(type="submit").btn.btn-primary.btn-lg Add Store

@@ -2,7 +2,7 @@ extends layout
 
 block main-content 
     h1 Products
-    a(href="/addItemDetails").btn.btn-secondary.mb-3 addItem
+    a(href="/addItemDetails").btn.btn-secondary.mb-3 Add an Item
     div.row.mb-5
         div.col-2
         div.col-8
@@ -17,4 +17,7 @@ block main-content
                             span.badge.badge-primary.badge-pill.card-subtitle.mb-4 #{stock} Left
                             p.card-text #{item.description}
                             h4.text-right.mr-5 $#{item.price}
+                            //- form(method = "get" action="/deleteItem")
+                            //-     input(type="hidden" value=item.name)
+                            //-     button(type="submit").btn.btn-danger.btn-lg Delete
         div.col-2

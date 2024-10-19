@@ -54,8 +54,14 @@ async function initializeItems() {
     await Item.create(obj);
   }
 
+  //delete an item from the db
+  // async function deleteItem(obj) {
+  //   await Item.deleteOne(obj);
+  // }
+
 module.exports = {
     getItems,
     initializeItems,
-    addItem
+    addItem,
+    // deleteItem
 };

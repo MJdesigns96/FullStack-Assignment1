@@ -35,6 +35,7 @@ app.get("/items", async (request, response) => {
   // initialize the shop if there are no items
   if (!itemsList.length) {
     await db.initializeItems();
+    // convert data to .json
     itemsList = await db.getItems().json();
   };
   // render the page afterwards
@@ -46,6 +47,7 @@ app.get("/stores", async (request, response) => {
   // initialize the locations if there are none
   if (!locationsList.length) {
     await shops.initializeLocations();
+    //convert data to .json
     locationsList = await shops.getShops().json();
   }
   // render the page afterwards
@@ -56,6 +58,11 @@ app.get("/addItemDetails", async (request, response) => {
   //render form to add item
   response.render("addItemDetails");
 });
+app.get("/addStoreDetails", async (request, response) => {
+  //render form to add store
+  response.render("addStore");
+});
+
 
 app.post("/addItem", async (request, response) => {
   // get form data from dom and store it into an object
@@ -69,12 +76,36 @@ app.post("/addItem", async (request, response) => {
 
   //use mongoose's create to add the obj to the db
   await db.addItem(newItem);
-  // redirect the user to items list
+  // redirect the user to items lista
   response.redirect("/items");
 });
 
+app.post("/addStore", async (request, response) => {
+  // get form data from dom and store into obj
+  let req = request.body;
+  let newStore = {
+    branch: req.branch,
+    address: req.address,
+    hourOpen: req.hourOpen,
+    hourClose: req.hourClose,
+    phone: req.phone
+  }
+// use mongoose's create to add obj to db
+await shops.addStore(newStore);
+response.redirect("/stores")
+});
+// app.get("/deleteItem", async(request, response) => {
+//   console.log(response);
+//   console.log(request);
+//   let obj = response;
+//   response.redirect("/items");
+// });
 //set up server listening
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
 
+//To Do:
+// may need to refactor the connection strings to use FETCH API to get data from mongodb
+// may need to host this app on a website online such as infinityfree
+// work on css and organizing some code on landing page
